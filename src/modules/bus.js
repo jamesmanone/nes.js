@@ -22,19 +22,21 @@ export default class Bus {
   constructor() {
     this._address = new Uint16Array(1);
     this.memory = new Uint8Array(0x0800);
+
   }
+
 
   get address() { return this._address[0]; }
   set address(val) { this._address[0] = val; }
 
   read = () => {
-    if(this.address < 0x2000) return this.mem[this.address & 0x7FF];
+    if(!this.address >>> 11) return this.mem[this.address & 0x7FF];
 
-    return undefined;
+    return 0x00;
   };
   write = val => {
-    if(this.address < 0x2000) this.mem[this.address & 0x7FF] = val;
+    if(!this.address >>> 11) this.mem[this.address & 0x7FF] = +val;
   };
 
-  
+
 };
